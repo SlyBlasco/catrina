@@ -4,6 +4,7 @@
  */
 package mx.itson.catrina.entities;
 
+import com.google.gson.Gson;
 import java.util.List;
 
 /**
@@ -17,6 +18,17 @@ public class AccountStatement {
     private List<Customer> customer;
     private List<Transactions> transactions;
 
+    public AccountStatement deserialize(String json){
+        AccountStatement AS = new AccountStatement();
+        
+        try{
+            AS = new Gson().fromJson(json, AccountStatement.class);
+        } catch(Exception ex){
+            System.err.print("Ocurrio un error: "+ ex.getMessage());
+        }
+        return AS;
+    }
+    
     public int getAccount() {
         return account;
     }
