@@ -12,10 +12,10 @@ import java.util.List;
  * @author luism
  */
 public class AccountStatement {
-    private int account;
-    private int clabe;
+    private String account;
+    private String clabe;
     private String currency;
-    private List<Customer> customer;
+    private Customer customer;
     private List<Transactions> transactions;
 
     public AccountStatement deserialize(String json){
@@ -29,19 +29,19 @@ public class AccountStatement {
         return AS;
     }
     
-    public int getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(int account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 
-    public int getClabe() {
+    public String getClabe() {
         return clabe;
     }
 
-    public void setClabe(int clabe) {
+    public void setClabe(String clabe) {
         this.clabe = clabe;
     }
 
@@ -53,11 +53,11 @@ public class AccountStatement {
         this.currency = currency;
     }
 
-    public List<Customer> getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(List<Customer> customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 

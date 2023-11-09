@@ -14,7 +14,7 @@ public class Customer {
     
     private int id;
     private String name;
-    private String adress;
+    private String address;
     private String city;
     private String rfc;
     @SerializedName("zip_code")
@@ -36,12 +36,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCity() {
