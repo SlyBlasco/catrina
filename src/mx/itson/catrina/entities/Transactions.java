@@ -4,6 +4,8 @@
  */
 package mx.itson.catrina.entities;
 
+import mx.itson.catrina.enums.Type;
+
 /**
  *
  * @author luism
@@ -11,8 +13,8 @@ package mx.itson.catrina.entities;
 public class Transactions {
     private String date;
     private String description;
-    private int amount;
-    private int type;
+    private double amount;
+    private Type type;
 
     public String getDate() {
         return date;
@@ -30,21 +32,23 @@ public class Transactions {
         this.description = description;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Type type) {
         this.type = type;
     }
+
+    
     
     
 }
