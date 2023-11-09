@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.catrina.entities.AccountStatement;
 import mx.itson.catrina.entities.Customer;
+import mx.itson.catrina.entities.Transactions;
 
 /**
  *
@@ -207,6 +208,12 @@ public class FormAccount extends javax.swing.JFrame {
                     model.addRow(new Object[]{account.getCustomer().getAddress()});
                     model.addRow(new Object[]{account.getCustomer().getCity()});
                     model.addRow(new Object[]{account.getCustomer().getZipCode()});
+                    
+                    for(Transactions t : account.getTransactions()){
+                        model.addRow(new Object[]{
+                            t.getDate(), t.getDescription(), 
+                        });
+                    }
                     
                     
                     /*DefaultTableModel modelAccountStatement = (DefaultTableModel) tblAccountStatement.getModel();
