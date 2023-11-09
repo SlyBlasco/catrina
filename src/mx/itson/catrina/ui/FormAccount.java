@@ -4,6 +4,15 @@
  */
 package mx.itson.catrina.ui;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.Vector;
+import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+import mx.itson.catrina.entities.AccountStatement;
+import mx.itson.catrina.entities.Customer;
+
 /**
  *
  * @author luism
@@ -43,6 +52,11 @@ public class FormAccount extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         BtnLoad.setText("Load file..");
+        BtnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnLoadActionPerformed(evt);
+            }
+        });
 
         lblTittle.setBackground(new java.awt.Color(51, 51, 255));
         lblTittle.setText("                                                                                                                  Account Statement");
@@ -164,6 +178,57 @@ public class FormAccount extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoadActionPerformed
+            try{
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                byte fileBytes[] = Files.readAllBytes(file.toPath());
+                String contenido = new String(fileBytes, StandardCharsets.UTF_8);
+                
+                AccountStatement account = new AccountStatement().deserialize(contenido);
+                
+                
+                if(account != null){
+                    
+                    /* lblNombre.setText(account.getName());
+                    lblCreador.setText("Esta receta es de Abraham Gómez");
+                    lblSubido.setText("Subido por: "account.getUser().getName() + account.getUser().getEmail());
+                    lblServings.setText("Sirve para "+account.getServings()+" porciones"); */
+                    
+                    DefaultTableModel model = (DefaultTableModel) tblInfo.getModel();
+                    model.setRowCount(0);
+                    
+                    model.addRow(new Object[]{account.getCustomer().getName()});
+                    model.addRow(new Object[]{account.getCustomer().getRfc()});
+                    model.addRow(new Object[]{account.getCustomer().getAddress()});
+                    model.addRow(new Object[]{account.getCustomer().getCity()});
+                    model.addRow(new Object[]{account.getCustomer().getZipCode()});
+                    
+                    
+                    /*DefaultTableModel modelAccountStatement = (DefaultTableModel) tblAccountStatement.getModel();
+                    modelAccountStatement.setRowCount(0);
+                   
+                    modelAccountStatement.addRow(new Object[]{
+                    account.getAccount(),account.getClabe(),account.getCurrency()
+                    });*/
+                    
+                   /* DefaultTableModel modelNutrition = (DefaultTableModel) tblNutitionFacts.getModel();
+                    modelNutrition.setRowCount(0);
+                    for(NutritionFact nF : recipe.getNutritionsFacts()){
+                        modelNutrition.addRow(new Object[]{
+                            nF.getName(), nF.getValue()
+                        }); 
+                    }*/
+                }
+            }
+        } catch (Exception ex){
+            System.err.println("Ocurrio un error: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_BtnLoadActionPerformed
 
     /**
      * @param args the command line arguments
