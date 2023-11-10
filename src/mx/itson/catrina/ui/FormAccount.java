@@ -7,7 +7,6 @@ package mx.itson.catrina.ui;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import mx.itson.catrina.entities.AccountStatement;
@@ -17,7 +16,7 @@ import mx.itson.catrina.enums.TypeTransaction;
 
 /**
  *
- * @author luism
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
  */
 public class FormAccount extends javax.swing.JFrame {
 
@@ -62,6 +61,7 @@ public class FormAccount extends javax.swing.JFrame {
         });
 
         lblAccountStatement.setBackground(new java.awt.Color(51, 51, 255));
+        lblAccountStatement.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblAccountStatement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAccountStatement.setText("Account Statement");
 
@@ -76,6 +76,7 @@ public class FormAccount extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblInfo);
 
+        lblSummary.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblSummary.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSummary.setText("Period Summary");
 
@@ -91,6 +92,7 @@ public class FormAccount extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tblSummary);
 
+        lblTransactions.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTransactions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTransactions.setText("Transactions");
 
@@ -128,6 +130,7 @@ public class FormAccount extends javax.swing.JFrame {
         jScrollPane5.setViewportView(tblAccountStatement);
 
         lblTittle.setBackground(new java.awt.Color(51, 51, 255));
+        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTittle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTittle.setText("Estado de Cuenta");
 
@@ -208,7 +211,7 @@ public class FormAccount extends javax.swing.JFrame {
         if (transaction.getType() == TypeTransaction.DEPOSIT) {
             return transaction.getAmount();
         }
-        return 0;
+        return 0; // Retorna 0 en caso de que no sea un deposito.
     }
     
     // Método para reconocer si la transaccion es de tipo WITHDRAW (retiro).
@@ -216,9 +219,10 @@ public class FormAccount extends javax.swing.JFrame {
         if (transaction.getType() == TypeTransaction.WITHDRAW) {
             return transaction.getAmount();
         }
-        return 0;
+        return 0; // Retorna 0 en caso de que no sea un retiro.
     }
-
+    
+    // Boton que busca el archivo json para la deserealizacion para rellenar todas las tablas y labels.
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         try {
             JFileChooser fileChooser = new JFileChooser();
@@ -261,6 +265,7 @@ public class FormAccount extends javax.swing.JFrame {
                     double deposit = 0;
                     double withdraw = 0;
                     double subtotal = 0;
+                    // Ciclo para sumar el total de depositos, total de retiros, saca el subtotal, y agrega cada fila junto con su informacion conforme la lista de Transactions.
                     for (Transactions t : account.getTransactions()) {
                         deposit += deposit(t);
                         withdraw += withdraw(t);
