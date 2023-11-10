@@ -8,11 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  *
- * @author emili
+ * @author Luis Blasco, Mario Le Blohic, Emiliano Bojorquez
+ * Clase enum que crea los depositos y los retiros y los serializa dependiendo de su numero.
  */
 public enum TypeTransaction {
+    // Reconoce el numero 1, como viene en el .json como DEPOSIT.
     @SerializedName("1")
             DEPOSIT,
+    // Reconoce el numero 2, como viene en el .json como WITHDRAW.
     @SerializedName("2")
             WITHDRAW
 }
