@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import mx.itson.catrina.entities.AccountStatement;
 import mx.itson.catrina.entities.Customer;
 import mx.itson.catrina.entities.Transactions;
+import mx.itson.catrina.enums.TypeTransaction;
 
 /**
  *
@@ -99,7 +100,7 @@ public class FormAccount extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "DATE", "DESCRIPTION", "DEPOSITS", "WITHDRAWALS", "SUBTOTAL"
             }
         ));
         jScrollPane4.setViewportView(tblTransactions);
@@ -179,9 +180,38 @@ public class FormAccount extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void Identificacion(double amount) {
+        Transactions transactions = new Transactions();
+        boolean deposit;
+        boolean withdraw;
+        if (transactions.getType() == mx.itson.catrina.enums.TypeTransaction.DEPOSIT) {
+            deposit = true;
+            withdraw = false;
+        } else if (transactions.getType() == mx.itson.catrina.enums.TypeTransaction.WITHDRAW) {
+            deposit = false;
+            withdraw = true;
+        } else {
+            System.err.print("No existe tal operacion");
+        }
+
+    }
+
+    private String Deposit(Transactions transaction) {
+        if (transaction.getType() == TypeTransaction.DEPOSIT) {
+            return String.valueOf(transaction.getAmount());
+        }
+        return "";
+    }
+
+    private String Withdraw(Transactions transaction) {
+        if (transaction.getType() == TypeTransaction.WITHDRAW) {
+            return String.valueOf(transaction.getAmount());
+        }
+        return "";
+    }
 
     private void BtnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoadActionPerformed
-            try{
+        try {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
@@ -189,50 +219,29 @@ public class FormAccount extends javax.swing.JFrame {
                 File file = fileChooser.getSelectedFile();
                 byte fileBytes[] = Files.readAllBytes(file.toPath());
                 String contenido = new String(fileBytes, StandardCharsets.UTF_8);
-                
+
                 AccountStatement account = new AccountStatement().deserialize(contenido);
-                
-                
-                if(account != null){
-                    
-                    /* lblNombre.setText(account.getName());
-                    lblCreador.setText("Esta receta es de Abraham Gómez");
-                    lblSubido.setText("Subido por: "account.getUser().getName() + account.getUser().getEmail());
-                    lblServings.setText("Sirve para "+account.getServings()+" porciones"); */
-                    
+
+                if (account != null) {
                     DefaultTableModel model = (DefaultTableModel) tblInfo.getModel();
                     model.setRowCount(0);
-                    
+
                     model.addRow(new Object[]{account.getCustomer().getName()});
                     model.addRow(new Object[]{account.getCustomer().getRfc()});
                     model.addRow(new Object[]{account.getCustomer().getAddress()});
                     model.addRow(new Object[]{account.getCustomer().getCity()});
                     model.addRow(new Object[]{account.getCustomer().getZipCode()});
-                    
-                    for(Transactions t : account.getTransactions()){
-                        model.addRow(new Object[]{
-                            t.getDate(), t.getDescription(), 
+
+                    DefaultTableModel modelTransactions = (DefaultTableModel) tblTransactions.getModel();
+                    modelTransactions.setRowCount(0);
+                    for (Transactions t : account.getTransactions()) {
+                        modelTransactions.addRow(new Object[]{
+                            t.getDate(), t.getDescription(), Deposit(t), Withdraw(t)
                         });
                     }
-                    
-                    
-                    /*DefaultTableModel modelAccountStatement = (DefaultTableModel) tblAccountStatement.getModel();
-                    modelAccountStatement.setRowCount(0);
-                   
-                    modelAccountStatement.addRow(new Object[]{
-                    account.getAccount(),account.getClabe(),account.getCurrency()
-                    });*/
-                    
-                   /* DefaultTableModel modelNutrition = (DefaultTableModel) tblNutitionFacts.getModel();
-                    modelNutrition.setRowCount(0);
-                    for(NutritionFact nF : recipe.getNutritionsFacts()){
-                        modelNutrition.addRow(new Object[]{
-                            nF.getName(), nF.getValue()
-                        }); 
-                    }*/
                 }
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.err.println("Ocurrio un error: " + ex.getMessage());
         }
     }//GEN-LAST:event_BtnLoadActionPerformed

@@ -4,7 +4,7 @@
  */
 package mx.itson.catrina.entities;
 
-import mx.itson.catrina.enums.Type;
+import mx.itson.catrina.enums.TypeTransaction;
 
 /**
  *
@@ -14,7 +14,7 @@ public class Transactions {
     private String date;
     private String description;
     private double amount;
-    private Type type;
+    private TypeTransaction type;
 
     public String getDate() {
         return date;
@@ -40,11 +40,11 @@ public class Transactions {
         this.amount = amount;
     }
 
-    public Type getType() {
+    public TypeTransaction getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(TypeTransaction type) {
         this.type = type;
     }
 

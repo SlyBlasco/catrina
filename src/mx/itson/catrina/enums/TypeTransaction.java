@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author emili
  */
-public enum Type {
+public enum TypeTransaction {
     @SerializedName("1")
             DEPOSIT,
     @SerializedName("2")
