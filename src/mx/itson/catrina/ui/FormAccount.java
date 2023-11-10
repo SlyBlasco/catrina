@@ -196,18 +196,18 @@ public class FormAccount extends javax.swing.JFrame {
 
     }
 
-    private String Deposit(Transactions transaction) {
+    private double Deposit(Transactions transaction) {
         if (transaction.getType() == TypeTransaction.DEPOSIT) {
-            return String.valueOf(transaction.getAmount());
+            return transaction.getAmount();
         }
-        return "";
+        return 0;
     }
 
-    private String Withdraw(Transactions transaction) {
+    private double Withdraw(Transactions transaction) {
         if (transaction.getType() == TypeTransaction.WITHDRAW) {
-            return String.valueOf(transaction.getAmount());
+            return transaction.getAmount();
         }
-        return "";
+        return 0;
     }
 
     private void BtnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoadActionPerformed
@@ -223,6 +223,7 @@ public class FormAccount extends javax.swing.JFrame {
                 AccountStatement account = new AccountStatement().deserialize(contenido);
 
                 if (account != null) {
+                    // Tabla Info
                     DefaultTableModel model = (DefaultTableModel) tblInfo.getModel();
                     model.setRowCount(0);
 
@@ -231,12 +232,17 @@ public class FormAccount extends javax.swing.JFrame {
                     model.addRow(new Object[]{account.getCustomer().getAddress()});
                     model.addRow(new Object[]{account.getCustomer().getCity()});
                     model.addRow(new Object[]{account.getCustomer().getZipCode()});
-
+                    
+                    //Tabla Transactions
                     DefaultTableModel modelTransactions = (DefaultTableModel) tblTransactions.getModel();
                     modelTransactions.setRowCount(0);
+                    
+                    double subtotal = 0;
                     for (Transactions t : account.getTransactions()) {
+                        
+                        subtotal += Deposit(t) - Withdraw(t);
                         modelTransactions.addRow(new Object[]{
-                            t.getDate(), t.getDescription(), Deposit(t), Withdraw(t)
+                            t.getDate(), t.getDescription(), Deposit(t), Withdraw(t), subtotal
                         });
                     }
                 }
